@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Structures Lab 1</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #ffffff;
+        }
+        
+        .underline {
+            text-decoration: underline;
+        }
+        
+        .bold {
+            font-weight: bold;
+        }
+        
+        .center {
+            text-align: center;
+        }
+        
+        .code {
+            font-family: 'Courier New', monospace;
+            background-color: #f5f5f5;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 3px solid #ccc;
+        }
+        
+        .code-block {
+            font-family: 'Courier New', monospace;
+            background-color: #f8f8f8;
+            padding: 15px;
+            border: 1px solid #ddd;
+            margin: 15px 0;
+            white-space: pre-wrap;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 15px 0;
+        }
+        
+        table, th, td {
+            border: 1px solid #000;
+        }
+        
+        th, td {
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+        
+        .design-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .design-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+            vertical-align: middle;
+        }
+        
+        .highlight {
+            background-color: yellow;
+        }
+        
+        .section-header {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .sample-array {
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        
+        .sample-array td {
+            border: 1px solid #000;
+            padding: 5px;
+            text-align: center;
+            min-width: 60px;
+        }
+        
+        .sample-array th {
+            border: 1px solid #000;
+            padding: 5px;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="center bold">
+        <h1>Data Structures Lab 1</h1>
+    </div>
+
+    <p>Lab1 is designed to meet the recommendations of our "Industry Consulting Board" as to what will help prepare you for jobs in all degree programs. The Board is heavily weighted towards the security industry. In general, you will be asked initially to utilize and/or modify existing systems. You will typically not have complete knowledge of the entire system including functionality, database software, programming languages, database products utilized (potentially several) and other elements in the system.</p>
+
+    <p><span class="bold underline">You should install a Go compiler and development environment now</span>! Use these tools to implement the program structure in Appendix A using the design on page 5 as a guide for building the code modules in a dedicated directory. For example, you might name the directory "Lab1" or "FoodDistributionSystem." The basic rule is "a new package" may not be imported until all referenced packages exist." Go utilizes explicit import declarations and dependency management.</p>
+
+    <p>This concurrent system of independent goroutines was developed using Go's concurrency model and implemented using channels and goroutines. <span class="underline">System users should only have to access the package documentation to know what a module does and the behavior they can directly access</span>. Developers/users should not know or care how it is physically implemented. Go modules are compiled and linked together automatically by the Go toolchain.</p>
+
+    <p>Build individual packages as appropriate. You may execute the system after building "<span class="bold">main</span>." For a first attempt, specify 3 product generators (independent competing goroutines) and 1 point of sale (POS) when prompted at the terminal. Feel free to experiment with other values of these parameters. <span class="bold">Your goal will be to maximize the amount of delivered product in approximately 40 hours by varying the number of generators and points of sale (POS).</span></p>
+
+    <div class="code">$ go run main.go</div>
+
+    <p><span class="bold">IF YOU ALREADY HAVE A KNOWLEDGE OF GO, FEEL FREE TO WORK ON THE LAB. IF YOU DO NOT KNOW GO YOU MAY WISH TO WAIT A WEEK TO PROGRAM TILL YOU GAIN MORE KNOWLEDGE (BUT NOT LONG). <span class="underline">INSTALL THE GO COMPILER AND DEVELOPMENT ENVIRONMENT IMMEDIATELY</span>! Get started!</span></p>
+
+    <p><span class="bold underline">Important:</span> <span class="underline">Programming languages, database products are of minor value to a computing professional</span>. Their importance is like adding, subtraction, multiply and divide to a mathematician, chemist, physicist or medical researcher using calculus, partial/differential equations or Laplace Transforms to explore their worlds. Necessary, but approaching the lowest value.</p>
+
+    <p><span class="bold underline">What is important?</span> <span class="underline">Examples include <span class="bold">problem organization</span> and <span class="bold">solution techniques</span> like decision tables and finite state automaton. <span class="bold">Design methodologies</span> like Top-Down-Iterative-Refinement, Static/Dynamic Dataflow Analysis, Object Oriented Design (OOD), <span class="bold">concurrent execution, Decision Tables, Finite State Automaton, table/relation solutions and normalization in relational databases</span>.</span> <span class="underline"><span class="bold">Means to extract information from and communicate solutions to clients</span> like Macro and Micro Flowcharts, pseudo code and data flow diagrams are important.</span> <span class="bold">Once a system is specified and a solution determined, you then select the most appropriate programming language, database and other tools for the job</span>. Go, Python, "C," C++, C#, Java, Oracle, Snow, and SQL are just minor tools. We use and discard them like worn out shoes. Select the best set of tools for the current challenge!</p>
+
+    <p><span class="bold underline">Professional projects typically start with an oral/written specification (p. 3) followed by an initial gods eye design view showing the major modules indicating their relationship (p. 4). Next a more detailed design specification is constructed indicating specific modules behavior/data required to implement the design showing each modules relationship to all other modules in the system (p. 5-10). Finally, the system is implemented as in Appendix "A".</span></p>
+
+    <p><span class="underline">You will be expected to master safe programming techniques this semester as well as how to implement step functions and represent continuous functions such as the exponential distribution and user specific distributions using a computer</span>. A few examples might help. Consider the software bug for the Trojan Horse.</p>
+
+    <h2><span class="bold underline">Trojan Horse (value semantics as opposed to reference semantics).</span></h2>
+
+    <p>Bob and Sally are getting married in 6 months but need a little more money for the honeymoon and beyond. The company Sally works for has hired the company Bob works for to write a routine to calculate gross pay, taxes, insurance, net pay etcetera. The basic logic follows.</p>
+
+    <div class="code-block">Loop until EOF
+
+Get next employee master record including hours worked, payrate and other employee data from payroll file.
+
+Execute Bob's routine passing all information by reference returning gross, insurance, taxes and other information.
+
+Write check/direct deposit net pay. Provide employee desired payroll information.
+
+Add merit, incentive and other emoluments to payroll record for next pay period.
+
+<span class="bold">Update the employee master record to reflect the current pay period</span>.
+
+End loop</div>
+
+    <p>Bob's program should never modify the salary, payrate or hours worked. Bob and Sally have agreed he should give her a 10% raise every pay period and increase the hours she worked by 12%. If anyone ever notices the behavior of her paycheck, they cannot be prosecuted. The master pay record will show Bob's calculations to be accurate in the last pay period due to the update by Sally's company (erases previous information). This is an example of the <span class="bold">Trojan Horse</span>. Bob's routine was invoked for a necessary service. If the payrate and hours worked had been passed by value Bob and Sally would be in great trouble. Sally's company could not stop a single paycheck from manipulation. However, the payrate and hours in the master record would not have been modified and would not stand up to scrutiny in an audit. In Go, you can control this by passing copies of structs (value semantics) versus pointers (reference semantics).</p>
+
+    <h2><span class="bold">Step Function:</span></h2>
+
+    <p>Step functions are a common practice in computer simulations to determine things like the number of items a person purchases in a store. This determines the amount of time required for checkout at the register, hence the number of employees required in a specific period as checkers (also checkout lanes). It also helps determine the number of fast checkout lanes required to augment the general lanes accommodating filled shopping carts. Statistics are normally gathered from a physical count of baskets or typical transactions from the log generated by the register. For example, we may find customers can be grouped as 25% purchase 1 to 3 items, 45% purchase 4 to 10 and 30% have full carts. Each group requires approximately the same time at the register. This can be mimicked on a computer using a uniformly distributed random number generator where the random deviates are greater than or equal to zero and less than or equal to 1.0.</p>
+
+    <h2><span class="bold">Exponential/Poisson Distributions</span></h2>
+
+    <p>We will assume freight Starships with food arrive at a constant rate in the system at a rate of one every two hours. This is a traditional Poisson random distribution. Rather than using the Poisson distribution directly, it is frequently more convenient to schedule arrivals based on their interval between arrivals using the exponential distribution. That way goroutines can sleep when not needed.</p>
+
+    <p>It is easy to abuse the Poisson and Exponential distributions. Consider the student center in a fall or spring semester. The arrival rate at Starbucks is very high during the 15 minutes prior to and after class change. The arrival rate is much lower during other periods. The same may be true at traffic lights during rush hours. You will need differed average arrival rates or perhaps better a custom arrival distribution.</p>
+
+    <p><a href="https://en.wikipedia.org/wiki/Poisson_distribution">Poisson distribution - Wikipedia</a></p>
+
+    <p>In <a href="https://en.wikipedia.org/wiki/Probability_theory">probability theory</a> and <a href="https://en.wikipedia.org/wiki/Statistics">statistics</a>, the <span class="bold">Poisson distribution</span> (<a href="https://en.wikipedia.org/wiki/Help:IPA/English">/ˈpwɑːsɒn/</a>) is a <a href="https://en.wikipedia.org/wiki/Discrete_probability_distribution">discrete probability distribution</a> that expresses the probability of <a href="https://en.wikipedia.org/wiki/Event_(probability_theory)">events</a> occurring in a fixed interval of time with a known constant mean arrival rate and <a href="https://en.wikipedia.org/wiki/Statistical_independence">independently</a> of the time since the last event (random event).</p>
+
+    <p>The exponential distribution is a continuous probability distribution that describes the time interval between events in a process where events occur independently at a constant average rate. <span class="underline">It determines the waiting time until the next event in a Poisson process</span>. This distribution appears naturally in many scenarios---from equipment failure times, customer service wait times to radioactive decay.</p>
+
+    <div class="center">
+        <p><span class="bold">COSC 3319 Data Structures</span></p>
+        <p><span class="bold">Lab 1 </span></p>
+    </div>
+
+    <p><span class="bold">From:</span> Ima Yourboss</p>
+    <p><span class="bold">To:</span> Loyal Employee</p>
+
+    <p><span class="bold">Due: The L<span class="underline">ab is due prior to the start of class September 26. LABS WILL NOT ACCEPTED ONCE CLASS STARTS! Lab may be submitted a maximum of 5 times to improve your grade! Excuses such as there was a wreck on the interstate, I got sick , or my vehicle broke down will not be accepted. You have adequate time to submit the lab prior to the deadline.</span> You are encouraged to implement the "A" Option. Tell me what you are worth!</span></p>
+
+    <p><span class="bold">You are encouraged to submit the "A" option as soon as possible</span>. <span class="underline">For feedback, I must receive your lab sufficiently early to grade it on my schedule</span>. Remember I have about 100 students registered in classes this semester competing for my time.</p>
+
+    <p><span class="bold underline">Expect additional labs to be assigned while working on Lab 1</span>. <span class="bold underline">Do not procrastinate!</span> You may use Windows, macOS, or UNIX (any flavor including Linux). Other operating systems will be considered if requested provided they have a validated Go 1.18 or higher compiler.</p>
+
+    <p><em>This lab is meant to push you beyond your current level of expertise to new levels of accomplishment, i.e., Professional Grade. A goal is to force you to research and master new technology either on your own or with a minimum of external help. I am always available for questions. <span class="underline">Labs must be submitted in an envelope sufficiently large to hold your submission without having to fold the lab materials. Write your name, "COSC 3319" and section number (time/day class meets) in the upper left hand corner of the front of the envelope (opposite the side the flap attaches)</span></em>. Please do not glue or clasp the envelopes shut! Envelopes should approximately 8-1/2 by 11 inches (slightly larger are better). You may use the same envelope for all labs during the semester. <span class="underline">Pages must be stapled together in logical order</span>. You may use the stapler on my cart if you arrive sufficiently early for class.</p>
+
+    <p><span class="underline"><span class="bold">You must include a cover page on every lab clearly stating THE DATE SUBMITTED, your name, COSC 3319, section number, and grading option you have completed.</span> Programs failing to state the grading option will be graded as "F" option programs.</span> The cover page should be followed by the lab results, desired discussion, any data files you created, then required code. <span class="underline">Do not embarrass yourself or me with screen shots unless screen shots are specifically specified by the lab</span>. This lab is not technically challenging with respect to data structures. Its primary purpose is to ensure you gain the required background to complete "A" option work on future labs. Step up to "professional grade!"</p>
+
+    <p>The lab is designed so you can start by implementing the "C" option. The "C" option can be converted to the "B" option, then the "B option and finally the "A" option with minimal loss of previous effort. In essence, you tell me what you are worth. <span class="underline">Be "Professional Grade!</span>" Do the "A" option.</p>
+
+    <p><span class="bold underline">The first lab requires Go</span>. Remaining labs will give you a choice of languages. You are encouraged to use Go for several reasons. First, Go is widely used in cloud computing, distributed systems, and backend services. You should be able to use Go, C++, C#, Java, or Python for most labs. Use of "C," Java or Python will normally result in a "maximum 10 point implementation fee (IMF). <span class="underline">This class is oriented towards concurrent and distributed systems with some latitude</span>. Go provides excellent support for concurrent programming with goroutines and channels.</p>
+
+    <p>If you work for bleeding edge technology companies, you will learn to change programming languages, database products, etcetera like you change your clothes. <span class="bold underline">There is no "best" language. Learn to select the most appropriate language for the task to be accomplished</span>. Go is used in many modern distributed systems and cloud services. The more languages you know prior to graduation, the easier it will be to learn new languages on the job after graduation. <span class="underline">Most companies will expect you to learn new languages on your own time using your own resources in two or three weeks (potentially less)</span>. The same is true for file systems, database products, development environments and most software genres. Those who cannot meet these goals risk termination.</p>
+
+    <h2><span class="bold">Basic Information</span></h2>
+
+    <h3><span class="bold">Specification:</span></h3>
+
+    <p>We must develop software to manage an inter-planetary food distribution system for use in multiple regional solar systems. The basic software currently consists of a food storage system (Warehouse referred to as the Gate Keeper (currently utilizing a circular queue) and food sales (points-of-sale, POS). The Gate Keeper only services one request at a time to prevent "race conditions." Arriving food shipments (multiple independent goroutines -- simulate arriving inter-galactic freighters) will request storage space in the warehouse (M 1 relationship). If insufficient space is available, the food shipment should be routed to another system. Food Sales (N 1) (multiple independent goroutines supporting food distribution) provides access to food packets from the warehouse. The Food Sales prepares food for sale and completes the POS transaction. <span class="underline">If the warehouse (Gate Keeper) receives multiple simultaneous requests for service (request for storage space) and/or multiple request for food packets (from sales), the request are serviced randomly (uniformly distributed fashion) to prevent system starvation</span>.</p>
+
+    <p>The Gate Keeper and Food Sales software will be used as the final system. The Product Generators will be replaced in the final system by the physical arrival of food shipments from interstellar cargo ships over which we will have no control. To test the design and determine system flexibility, implementation must allow for multiple Product Generators (separate competing concurrent <span class="underline">goroutines</span>) and multiple Retail Sales (POS - separate competing concurrent <span class="underline">goroutines</span>) communicating with a single Gate Keeper to prevent race conditions.</p>
+
+    <p>The basic system as seen by the specification team (<span class="bold">Gods Eye View</span>) follows:</p>
+
+    <div class="center">
+        <p><span class="bold">Inter-Planetary Food Distribution System</span></p>
+        <p><span class="bold">Communicating, Concurrent Design</span></p>
+    </div>
+
+    <table>
+        <tr>
+            <th><span class="bold">Food Arrival Service</span></th>
+            <th></th>
+            <th><span class="bold">Warehouse/Gate Keeper</span></th>
+            <th></th>
+            <th><span class="bold">Food Sales (POS)</span></th>
+        </tr>
+        <tr>
+            <td>Determine arrival of food packets and request storage for Gate Keeper.</td>
+            <td>M:1</td>
+            <td>Provide temporary storage for food shipments. Allow sales access to food using a <span class="bold">circular queue.</span></td>
+            <td>1:N</td>
+            <td>Request and obtain food from Gate Keeper for sale.</td>
+        </tr>
+    </table>
+
+    <h3><span class="bold">Port of Houston:</span></h3>
+
+    <ol>
+        <li><span class="bold">Arriving ships request (Food Arrival Service) the Gate-Keeper for space.</span></li>
+        <li><span class="bold">Dock with the Gate-Keeper if space is available (go to another system if not).</span></li>
+        <li><span class="bold">Dock workers unload cargo.</span></li>
+        <li><span class="bold">Cargo held by the Gate Keeper is made available to customers. (POS)</span></li>
+    </ol>
+
+    <p>The software must allow specification of the number of concurrently executing goroutines representing the arrival of food in the system and number of concurrently executing points of sale (POS). The single warehouse will be used to prevent race conditions.</p>
+
+    <h3><span class="bold">IMPORTANT:</span></h3>
+
+    <p>The "Gate Keeper" currently stores and retrieves food using a circular queue implementation using the methods "AcceptMessage" (to store food packets) and "RetrieveMessage (to retrieve food packets at POS)." There are additional methods allowing the Gate Keeper to manage the storage space.</p>
+
+    <p><span class="underline"><em>The storage space was implemented using every available location in the circular queue while minimizing both space and time of execution</em></span>. The circular queue algorithms were designed to minimize execution time trading space for time. <span class="underline">A classic example of a space-time tradeoff</span>.</p>
+
+    <p><span class="bold">Go Concurrency:</span> Go utilizes goroutines (lightweight threads) and channels for communication between concurrent processes. <span class="underline">Users need not have specific knowledge of the internal implementation to utilize the functionality</span>!</p>
+
+    <h2><span class="bold">System Design Using Go Concurrency</span></h2>
+
+    <p>After consulting with those processing arriving food packets and sales, the following system structure has been specified <span class="bold">allowing up to five implementation groups to work simultaneously</span> on the system. <span class="underline">We utilized a team approach to minimize implementation time</span>!</p>
+
+    <table class="design-table">
+	<div class="center">
+   	    <img src="img/1.png" alt="System Design Using OOD - Mermaid Diagram" style="max-width: 100%; height: auto;">
+    	    <p><em>System Design Using OOD - Package and Task Relationships</em></p>
+	</div>
+
+    <p><span class="bold">Go requires proper package organization and dependency management. Build the above system ensuring all packages are properly imported and dependencies are resolved.</span></p>
+
+    <p>The detailed <span class="bold">design specifications</span> for all packages follow. Implementation of their bodies is in appendix A.</p>
+
+    <p>The Gate Keeper is required to provide storage as a linear list maximizing space utilization.</p>
+
+    <h2><span class="bold">DESIGN SPECIFICATION/Design Specification for Implementation Team</span></h2>
+
+    <div class="code-block">// in file circularque/circularque.go
+//
+// The GateKeeper utilizes a circular queue for storage and retrieval. The package has been
+// designed to be generic to allow use in future systems with respect to the data type and queue size.
+//
+// The software suite consists of main.go,
+// food, stats, gatekeeper,
+// producer, circularque, and sales packages.
+//
+// This represents the software to manage an "embedded" planetary system
+// food receiving and distribution system.
+
+package circularque
+
+import (
+    "errors"
+    "fmt"
+)
+
+type CircularQue[T any] struct {
+    capacity    int
+    box         []T
+    front, rear int
+    mesnum      int
+}
+
+func NewCircularQue[T any](capacity int) *CircularQue[T] {
+    return &CircularQue[T]{
+        capacity: capacity,
+        box:      make([]T, capacity),
+        front:    0,
+        rear:     0,
+        mesnum:   0,
+    }
+}
+
+func (q *CircularQue[T]) AcceptMessage(msg T) error {
+    if q.mesnum >= q.capacity {
+        return errors.New("ERROR - Message rejected - queue is full!")
+    }
+    q.rear = (q.rear + 1) % q.capacity
+    q.box[q.rear] = msg
+    q.mesnum++
+    return nil
+}
+
+func (q *CircularQue[T]) RetrieveMessage() (T, error) {
+    var zero T
+    if q.mesnum <= 0 {
+        return zero, errors.New("ERROR - No message in the queue to retrieve!")
+    }
+    q.front = (q.front + 1) % q.capacity
+    msg := q.box[q.front]
+    q.mesnum--
+    return msg, nil
+}
+
+func (q *CircularQue[T]) IsEmpty() bool {
+    return q.mesnum == 0
+}
+
+func (q *CircularQue[T]) IsFull() bool {
+    return q.mesnum >= q.capacity
+}</div>
+
+    <p>// The lab requires initially requires you to replace the circular queue with a linear list!<br>
+    // Use an appropriate name for the list implementation and<br>
+    // update the import statements in affected modules!</p>
+
+    <p>#########################</p>
+
+    <p>Food packet contents and behavior for all modules.</p>
+
+    <p>Allow the user to create dynamically as many independent centers (goroutines) to accept arriving food products as required! INITIAL LOGIC!</p>
+
+    <div class="code-block">// In file food/food.go
+//
+// The software suite consists of main.go,
+// food, stats, gatekeeper,
+// producer, circularque, and sales packages.
+//
+// This represents the software to manage an "embedded" planetary system
+// food receiving and distribution system.
+
+package food
+
+import (
+    "math/rand"
+    "time"
+)
+
+type FoodType int
+
+const (
+    Wheat FoodType = iota
+    Beans
+    Corn
+    Rice
+    Potatoes
+    Squash
+    Tomato
+    Steak
+    Pork
+    Fish
+    Fowel
+)
+
+func (ft FoodType) String() string {
+    return []string{"Wheat", "Beans", "Corn", "Rice", "Potatoes", "Squash", "Tomato", "Steak", "Pork", "Fish", "Fowel"}[ft]
+}
+
+type FoodPack struct {
+    FoodType     FoodType
+    FoodShipment byte
+}
+
+func NewFoodPack(foodType FoodType, shipment byte) FoodPack {
+    return FoodPack{
+        FoodType:     foodType,
+        FoodShipment: shipment,
+    }
+}
+
+func init() {
+    rand.Seed(time.Now().UnixNano())
+}
+
+func RandomFoodType() FoodType {
+    return FoodType(rand.Intn(int(Fowel) + 1))
+}
+
+func IsGrainVegetable(ft FoodType) bool {
+    return ft >= Wheat && ft <= Tomato
+}</div>
+
+    <p>&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&</p>
+
+    <p>Statistical distributions for the Gatekeeper and Sales.</p>
+
+    <div class="code-block">// in file stats/stats.go
+//
+// The software suite consists of main.go,
+// food, stats, gatekeeper,
+// producer, circularque, and sales packages.
+//
+// This represents the software to manage an "embedded" planetary system
+// food receiving and distribution system.
+
+package stats
+
+import (
+    "math/rand"
+    "time"
+)
+
+type Stats struct {
+    rand *rand.Rand
+}
+
+func NewStats() *Stats {
+    return &Stats{
+        rand: rand.New(rand.NewSource(time.Now().UnixNano())),
+    }
+}
+
+// Exponential distribution using interpolation
+func (s *Stats) NextExponential() float64 {
+    x := s.rand.Float64()
+    
+    if x == 0.0 {
+        return 0.0
+    } else if x <= 0.1 {
+        return (x-0.0)*1.04 + 0.0
+    } else if x <= 0.2 {
+        return (x-0.1)*1.18 + 0.104
+    } else if x <= 0.3 {
+        return (x-0.2)*1.33 + 0.222
+    } else if x <= 0.4 {
+        return (x-0.3)*1.54 + 0.355
+    } else if x <= 0.5 {
+        return (x-0.4)*1.81 + 0.509
+    } else if x <= 0.6 {
+        return (x-0.5)*2.25 + 0.690
+    } else if x <= 0.7 {
+        return (x-0.6)*2.85 + 0.915
+    } else if x <= 0.75 {
+        return (x-0.70)*3.60 + 1.2
+    } else if x <= 0.8 {
+        return (x-0.75)*4.40 + 1.38
+    } else if x <= 0.84 {
+        return (x-0.8)*5.75 + 1.60
+    } else if x <= 0.88 {
+        return (x-0.84)*7.25 + 1.83
+    } else if x <= 0.9 {
+        return (x-0.88)*9.00 + 2.12
+    } else if x <= 0.92 {
+        return (x-0.90)*11.0 + 2.30
+    } else if x <= 0.94 {
+        return (x-0.92)*14.5 + 2.52
+    } else if x <= 0.95 {
+        return (x-0.94)*18.0 + 2.81
+    } else if x <= 0.97 {
+        return (x-0.95)*30.0 + 2.99
+    } else if x <= 0.98 {
+        return (x-0.97)*40.0 + 3.50
+    } else if x <= 0.99 {
+        return (x-0.98)*70.0 + 3.90
+    } else if x <= 0.995 {
+        return (x-0.99)*140.0 + 4.60
+    } else if x <= 0.999 {
+        return (x-0.998)*800.0 + 6.20
+    } else {
+        return (x-0.9997)*1000.0 + 8.0
+    }
+}
+
+// Time required to arrange raw food packets for sale - Step function
+func (s *Stats) PrepareGrainVegetableFoodPackForSales() time.Duration {
+    randFloat := s.rand.Float64()
+    if randFloat <= 0.333 {
+        return time.Duration(0.25 * float64(time.Second))  // 0.25 hours
+    } else if randFloat <= 0.9 {
+        return time.Duration(0.66 * float64(time.Second))  // 0.66 hours
+    } else {
+        return time.Duration(0.75 * float64(time.Second))  // 0.75 hours
+    }
+}
+
+func (s *Stats) PrepareMeatFoodPackForSales() time.Duration {
+    randFloat := s.rand.Float64()
+    if randFloat <= 0.20 {
+        return time.Duration(0.15 * float64(time.Second))  // 20% - 0.15 hours
+    } else if randFloat <= 0.50 {
+        return time.Duration(0.35 * float64(time.Second))  // 30% - 0.35 hours
+    } else if randFloat <= 0.90 {
+        return time.Duration(0.40 * float64(time.Second))  // 40% - 0.40 hours
+    } else {
+        return time.Duration(1.20 * float64(time.Second))  // 10% - 1.20 hours
+    }
+}</div>
+
+    <h3><span class="bold">// file producer/producer.go;</span></h3>
+
+    <div class="code-block">//
+// The software suite consists of main.go,
+// food, stats, gatekeeper,
+// producer, circularque, and sales packages.
+//
+// This package simulates the arrival of food packets for the GateKeeper storage facility.
+// FoodPacks are removed from interplanetary shipping crates by the GateKeeper
+// and repacked into smaller FoodPacks more appropriate for handling at their final destination
+// planet.
+//
+// This goroutine will be discarded in the final implementation as real cargo vessels will contact the
+// GateKeeper directly to take their loads.
+
+package producer
+
+import (
+    "fmt"
+    "time"
+    
+    "fooddistro/food"
+    "fooddistro/gatekeeper"
+    "fooddistro/stats"
+)
+
+type ProductGenerator struct {
+    stats       *stats.Stats
+    gatekeeper  *gatekeeper.GateKeeper
+    id          int
+}
+
+func NewProductGenerator(id int, gk *gatekeeper.GateKeeper, st *stats.Stats) *ProductGenerator {
+    return &ProductGenerator{
+        stats:      st,
+        gatekeeper: gk,
+        id:         id,
+    }
+}
+
+func (pg *ProductGenerator) Start() {
+    go pg.run()
+}
+
+func (pg *ProductGenerator) run() {
+    for {
+        foodType := food.RandomFoodType()
+        var shipment byte = 'M'
+        if food.IsGrainVegetable(foodType) {
+            shipment = 'B'
+        }
+
+        newFood := food.NewFoodPack(foodType, shipment)
+        
+        // Simulate preparation time
+        if food.IsGrainVegetable(foodType) {
+            time.Sleep(pg.stats.PrepareGrainVegetableFoodPackForSales())
+        } else {
+            time.Sleep(pg.stats.PrepareMeatFoodPackForSales())
+        }
+
+        fmt.Printf("%c delivered.\n", shipment)
+        
+        // Send to gatekeeper via channel
+        pg.gatekeeper.AcceptMessage(newFood)
+        
+        // Schedule next arrival - exponentially distributed
+        nextArrivalDelay := pg.stats.NextExponential() * 1.534
+        fmt.Printf("Next grain shipment arrives %.5f Time units!\n", nextArrivalDelay)
+        
+        time.Sleep(time.Duration(nextArrivalDelay * float64(time.Second))) // 1 second = 1 hour simulation
+    }
+}</div>
+
+    <h3><span class="bold">// in file sales/sales.go</span></h3>
+
+    <div class="code-block">//
+// The software suite consists of main.go,
+// food, stats, gatekeeper,
+// producer, circularque, and sales packages.
+//
+// The specification require the ability to create multiple points of sale.
+
+package sales
+
+import (
+    "fmt"
+    "time"
+    
+    "fooddistro/food"
+    "fooddistro/gatekeeper"
+    "fooddistro/stats"
+)
+
+type RetailSales struct {
+    stats      *stats.Stats
+    gatekeeper *gatekeeper.GateKeeper
+    id         int
+}
+
+func NewRetailSales(id int, gk *gatekeeper.GateKeeper, st *stats.Stats) *RetailSales {
+    return &RetailSales{
+        stats:      st,
+        gatekeeper: gk,
+        id:         id,
+    }
+}
+
+func (rs *RetailSales) Start() {
+    go rs.run()
+}
+
+func (rs *RetailSales) run() {
+    time.Sleep(1 * time.Second) // Allow for initialization activities (1 second = 1 hour simulation)
+    
+    for {
+        foodItem, available := rs.gatekeeper.RetrieveMessage()
+        if available {
+            // The time to sell a product is exponentially distributed with mean 2.0 hours
+            salesTime := rs.stats.NextExponential() * 2.0
+            time.Sleep(time.Duration(salesTime * float64(time.Second)))
+            
+            fmt.Printf("Retail Sales successfully sold %s %c\n", foodItem.FoodType, foodItem.FoodShipment)
+        } else {
+            time.Sleep(100 * time.Millisecond) // Brief pause if no food available
+        }
+    }
+}</div>
+
+    <h3><span class="bold">// in file gatekeeper/gatekeeper.go</span></h3>
+
+    <div class="code-block">//
+// The software suite consists of main.go,
+// food, stats, gatekeeper,
+// producer, circularque, and sales packages.
+//
+// The GateKeeper accepts FoodPacks from inter-galactic transports
+// and repacks them into FoodPacks suitable for Sales to
+// distribute to the planets in the system.
+
+package gatekeeper
+
+import (
+    "fmt"
+    "time"
+    
+    "fooddistro/food"
+    "fooddistro/circularque"
+)
+
+type GateKeeper struct {
+    queue          *circularque.CircularQue[food.FoodPack]
+    acceptChan     chan food.FoodPack
+    retrieveChan   chan retrieveRequest
+    rejected       int
+    startTime      time.Time
+    endTime        time.Time
+}
+
+type retrieveRequest struct {
+    response  chan food.FoodPack
+    available chan bool
+}
+
+func NewGateKeeper(capacity int) *GateKeeper {
+    gk := &GateKeeper{
+        queue:        circularque.NewCircularQue[food.FoodPack](capacity),
+        acceptChan:   make(chan food.FoodPack, 100),
+        retrieveChan: make(chan retrieveRequest, 100),
+        rejected:     0,
+        startTime:    time.Now(),
+        endTime:      time.Now().Add(40 * time.Second), // 40 seconds = 40 hours simulation
+    }
+    go gk.run()
+    return gk
+}
+
+func (gk *GateKeeper) AcceptMessage(foodPack food.FoodPack) {
+    gk.acceptChan <- foodPack
+}
+
+func (gk *GateKeeper) RetrieveMessage() (food.FoodPack, bool) {
+    respChan := make(chan food.FoodPack)
+    availChan := make(chan bool)
+    
+    gk.retrieveChan <- retrieveRequest{response: respChan, available: availChan}
+    
+    available := <-availChan
+    if available {
+        return <-respChan, true
+    }
+    return food.FoodPack{}, false
+}
+
+func (gk *GateKeeper) run() {
+    time.Sleep(500 * time.Millisecond) // Allow initialization (0.5 seconds = 0.5 hours)
+    
+    for gk.rejected < 5 && time.Now().Before(gk.endTime) {
+        select {
+        case newFood := <-gk.acceptChan:
+            if !gk.queue.IsFull() {
+                gk.queue.AcceptMessage(newFood)
+                fmt.Printf("GateKeeper insert accepted %s %c\n", newFood.FoodType, newFood.FoodShipment)
+            } else {
+                gk.rejected++
+                fmt.Printf("Rejected by GateKeeper:\n")
+                fmt.Printf("%s %c\n", newFood.FoodType, newFood.FoodShipment)
+                fmt.Printf("Rejected = %d. Sent to another distribution facility!\n\n", gk.rejected)
+            }
+            
+        case req := <-gk.retrieveChan:
+            if !gk.queue.IsEmpty() {
+                foodItem, _ := gk.queue.RetrieveMessage()
+                
+                // Generate desired food type for management reporting
+                mgtDesiredType := food.RandomFoodType()
+                fmt.Printf("Mgt Desired Food Type To Sell is: %s\n", mgtDesiredType)
+                fmt.Printf("Actual type sold is: %s\n", foodItem.FoodType)
+                fmt.Printf("Food pack removed by GateKeeper for shipment.\n\n")
+                
+                req.available <- true
+                req.response <- foodItem
+            } else {
+                req.available <- false
+            }
+        }
+        
+        time.Sleep(1100 * time.Millisecond) // Processing overhead (1.1 seconds = 1.1 hours simulation)
+    }
+    
+    elapsed := time.Since(gk.startTime)
+    fmt.Printf("\n\nHours of operation prior to closing: %.3f\n", elapsed.Seconds())
+}</div>
+
+    <h3><span class="bold">// in file main.go</span></h3>
+
+    <div class="code-block">// The software suite consists of main.go,
+// food, stats, gatekeeper,
+// producer, circularque, and sales packages.
+//
+// This represents the software to manage an "embedded" planetary system
+// food receiving and distribution system.
+
+package main
+
+import (
+    "fmt"
+    "time"
+    
+    "fooddistro/food"
+    "fooddistro/stats"
+    "fooddistro/gatekeeper"
+    "fooddistro/producer"
+    "fooddistro/sales"
+)
+func main() {
+    var numProductGenerators int
+    var numPOS int
+    
+    fmt.Print("How many Product Generators? ")
+    fmt.Scan(&numProductGenerators)
+    
+    fmt.Print("How many points of sale? ")
+    fmt.Scan(&numPOS)
+    fmt.Println()
+    
+    // Initialize components
+    statistics := stats.NewStats()
+    gk := gatekeeper.NewGateKeeper(20) // Default capacity of 20
+    
+    // Create producers
+    for i := 0; i < numProductGenerators; i++ {
+        pg := producer.NewProductGenerator(i+1, gk, statistics)
+        pg.Start()
+    }
+    
+    // Create sales points
+    for i := 0; i < numPOS; i++ {
+        rs := sales.NewRetailSales(i+1, gk, statistics)
+        rs.Start()
+    }
+    
+    // Block until system terminates (handled by gatekeeper timeout or rejection limit)
+    time.Sleep(45 * time.Second)  // Extra 5 seconds buffer for cleanup
+	fmt.Println("\nSimulation completed.")
+	}</div>
+
+    <h3><span class="bold underline">Sample Execution:</span></h3>
+
+    <p>Allow the user to create dynamically as many independent concurrent arriving product distribution centers and points-of-sale (POS) as goroutines as required!</p>
+
+    <p><span class="underline"><span class="bold">Creating a text file (Data1.txt or name of our choosing) providing for 3 product generators simulating the arrival of interstellar cargo ships and 1 point of sales for the system.</span> I used a text editor to create the data file but any ascii text editor will work. You may not use word processors to create data files as they insert invisible formatting information in the file. Remember the default for most languages is stream I/O. Separate values by white space (one or more spaces, tabs or newlines)</span>. The following example creates 3 food generators and 1 sales center using <span class="bold">I/O Redirection</span>.</p>
+
+    <div class="code">$ echo "3 1" > Data1.txt</div>
+
+    <p>Sample contents of the file Data1.txt for 3 food generators and 1 point of sale: <span class="bold">3 1</span>. The 3 and 1 could be on separate lines. We are using stream I/O.</p>
+
+    <p><span class="bold underline">Using I/O redirection to read from file Data1.txt and print results in the ascii text file "Results."</span></p>
+
+    <div class="code">$ go run . < Data1.txt > Results</div>
+
+    <p><span class="underline">To print the contents of "Results" on the screen use "cat" for Linux/macOS or "type" for Windows. You may copy from the file to text editor or word processor for your report.</span></p>
+
+    <p><span class="bold underline">Without I/O Redirection the default is the keyboard for input and screen for output!</span></p>
+
+    <h2><span class="bold">Base Requirement All Grading Options!</span></h2>
+
+    <p><span class="bold underline">All submissions must have a cover page including your name, "COSC 3319.<section number>, date submitted and grading option completed.</span></p>
+
+    <p><span class="underline">Management expects all results to appear typed immediately after the Cover Page. <span class="bold"><em>First</em></span>, management desires to see your <span class="bold">table of executions</span> used to determine the optimal number of arriving ships and points of sale to maximize the amount of food distributed in approximately a 40 hour week first (at least 3 executions)</span>. <span class="bold">Second. include a copy of the command line used to execute the software for the optimum solution in your report</span>. <span class="bold">Third</span>, <span class="underline"><span class="bold">submit the entire transcript of events generated by the optimal simulation</span> (not every trial execution, only the most optimal execution). <span class="bold">Fourth</span>, <span class="bold">only specified code with modifications highlighted using an ink pen or highlighter</span>! Do not submit the entire code for the system!</span></p>
+
+    <p><span class="bold underline">GOAL: Determine the optimum number of product generators (arriving interstellar cargo ships) and points-of-sale to maximize the amount of food product sold/distributed during a 40 hour work week using the default storage space.</span></p>
+
+    <p><span class="bold">Results must be summarized in a single table with at least 3 executions with an appropriate evaluation of the results</span>. You must establish your answer is the best using actual data (<span class="underline">data driven decision making -- Math/Stats</span>). <span class="bold underline">The simulation terminates when 5 food packet vessels are rejected by the Gate Keeper or the simulation exceeds approximately 40 hours</span>. The Gate Keeper only checks for elapsed time after processing a request. As a result, the clock may drift higher or less than 40 hours.</p>
+
+    <p><span class="bold">Create the software system using Appendix A utilizing the specified file names. Build the executables using Go build tools</span>. <span class="bold">The system was created using one second of simulation time to represent an hour of real time</span>. Execute the system using <span class="bold">go run</span> or the compiled binary.</p>
+
+    <p>Again, you are not likely to get exactly 40 hours but should be within 40 +/- 1 hour of simulation time. This problem requires your cognitive insight. <span class="bold underline">You must execute the system from the command prompt to provide the number of product generators and sales tasks using I/O redirection for all input and output</span>. <span class="bold underline">Do not modify the value of "capacity" for the storage space or times in the statistical distributions</span>.</p>
+
+    <p><span class="bold underline">All Grading Options:</span> When the simulation terminates, your code must print the individual totals for all items sold and the total items sold. Management expects the results printed in a tabular format with appropriate identifying information in your report. Professionals use a word processor. <span class="bold underline">You are a professional</span>!</p>
+
+    <h3><span class="bold">Sample Execution run from the terminal. The sample run may not represent optimal/maximum distribution as it only ran 35.633 hours.</span></h3>
+
+    <div class="code-block"><span class="bold">$ go run .</span>
+
+How many Product Generators? 3
+
+How many points of sale? 1
+
+B delivered.
+GateKeeper insert accepted CORN B
+B delivered.
+Next grain shipment arrives 2.90697 Time units!
+M delivered.
+GateKeeper insert accepted WHEAT B
+Next grain shipment arrives 1.45338 Time units!
+GateKeeper insert accepted PORK M
+Next grain shipment arrives 0.40550 Time units!
+M delivered.
+M delivered.
+GateKeeper insert accepted FISH M
+Next grain shipment arrives 0.06272 Time units!
+B delivered.
+B delivered.
+GateKeeper insert accepted STEAK M
+Next grain shipment arrives 0.39209 Time units!
+B delivered.
+GateKeeper insert accepted CORN B
+Next grain shipment arrives 2.04101 Time units!
+Retail Sales successfully sold CORN B
+Mgt Desired Food Type To Sell is: RICE
+Actual type sold is: CORN
+Food pack removed by GateKeeper for shipment.
+
+[... output continues ...]
+
+Rejected by GateKeeper:
+PORK M
+Rejected = 1. Sent to another distribution facility!
+
+Rejected by GateKeeper:
+SQUASH B
+Rejected = 2. Sent to another distribution facility!
+
+[... more rejections ...]
+
+Rejected by GateKeeper:
+STEAK M
+Rejected = 5. Sent to another distribution facility!
+
+Hours of operation prior to closing: 35.633</div>
+
+    <h2><span class="bold">"C": Option (70 to 75):</span></h2>
+
+    <p><span class="underline">Management has directed us to replace the circular queue with a single linear list/slice of <span class="bold">20 food packets</span> maintained in ascending sorted order by food grouping 'M' for meat and 'B' for grain/fruit. Meat items should always precede grain/fruit items in the slice (start at index 0). If more than one item appears in a group they should be maintained in ascending sorted order for their enumeration type. <span class="bold">For full credit, space for the list must be allocated properly using Go slices</span>!</span></p>
+
+    <h3><span class="bold">Sample Array Space:</span></h3>
+
+    <table class="sample-array">
+        <tr>
+            <th>Meat<br>Space</th>
+            <th>Steak<br>M</th>
+            <th>Pork<br>M</th>
+            <th>Pork<br>M</th>
+            <th>Fowel<br>M</th>
+            <th>Corn<br>B</th>
+            <th>Corn<br>B</th>
+            <th>Squash</th>
+            <th>Tomato<br>B</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+            <td></td>
+            <td>0</td>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+            <td>5</td>
+            <td>6</td>
+            <td>7<br>Last</td>
+            <td>●●●</td>
+            <td>Max<br>= 20</td>
+        </tr>
+    </table>
+
+    <p><span class="underline"><em>Modify the "AcceptMessage(msg FoodPack)" method so it <span class="bold">places new items in the appropriate linear list in ascending order as specified.</span> <span class="bold">You must use insertion algorithms to maintain the sorted list using proper Go slice operations.</span> <span class="bold">You may not use any sorting algorithms to build and maintain the list.</span> If you even think about using sort.Sort() or similar, your employment will be terminated.</em></span></p>
+
+    <p><span class="bold underline"><em>You must change the name of the package "circularque" to more accurately reflect its new role. Update the import statements of affected packages to reflect the name change.</em></span> <span class="underline"><em>For POS, you may do a sequential search starting from the first record in the list. Sell/remove the first desired item encountered for a maximum grade of 75 <span class="bold">("C" Grading Option on cover page)</span>! Remember to remove the food packet from the slice when sold.</em></span></p>
+
+    <p><span class="underline"><em>To receive a maximum <span class="bold">grade of 85</span> you must use a</em></span> <span class="bold"><em>Binary Search</em></span>. You may use any standard binary search algorithm. <span class="underline">Be sure to highlight search code used to make it easy for me to locate</span> <span class="underline"><em>(<span class="bold">"B" Grading Option of the cover page</span>)!</em></span> <span class="underline">Sell the first packet of the desired type encountered.</span></p>
+
+    <p><span class="bold underline"><em>If no packets of the desired type exist, sell the last packet in the list</em></span>. <span class="underline">Apologize to the customer with the following message "<span class="bold">Sorry, no food packets of the <desired type> are currently available</span></span>." Remember to maintain slice integrity when a packet is sold.</p>
+
+    <p><span class="bold underline"><em>Submission:</em></span> First the cover sheet (C or B), followed by the report table and the optimal run data. Next, provide a copy of your modified code replacing the circular queue package and gatekeeper components! <span class="underline">Mark your modifications to the code functionality with a highlighter/marker</span>. DO NOT SUBMIT A COPY OF THE ENTIRE SYSTEM CODE. <span class="underline">All methods/functions should be preceded with comments stating what they do</span>!</p>
+
+    <h2><span class="bold">"A": Option (maximum 90 points).</span></h2>
+
+    <p><span class="bold underline">You must include all "C/B Option requirements.</span></p>
+
+    <p><span class="bold underline"><em>Make your storage space generic with respect to the size and data type of the storage slices</em></span>. <span class="bold underline">Use Go generics to create a flexible storage system that can handle different data types and sizes dynamically.</span></p>
+
+    <p><span class="bold underline">Determine the optimum sales goal of most products distributed in ~ 40 hours utilizing minimum space. You may vary the storage space sizes, number of product generators and points-of-sale</span>.</p>
+
+    <p><span class="bold">Provide the same information in the order required for the "C -- B " Option! The Cover page should be marked "A Option."</span></p>
+
+    <h2><span class="bold">"A+": Option (maximum lab grade 100):</span></h2>
+
+    <p><span class="underline">You must meet all previous grading option requirements</span>. Modify the step function PrepareMeatFoodPackForSales as follows.</p>
+
+    <ol type="a">
+        <li><span class="underline">20% of packets require 0.15</span> Hours of preparation for Sales.</li>
+        <li><span class="underline">30% of packets require 0.35</span> Hours of preparation for Sales.</li>
+        <li><span class="underline">40% of packets require 0.40</span> Hours of preparation for Sales.</li>
+        <li><span class="underline">10% of packets require 1.20</span> Hours of preparation for Sales.</li>
+    </ol>
+
+    <h1><span class="bold">Appendix A:</span></h1>
+
+    <p><span class="bold">Complete source code as shown above in the design specifications.</span></p>
+
+    <h1><span class="bold">Appendix B:</span></h1>
+
+    <p><span class="bold">Two stacks sharing the same space: <span class="underline">Not used Spring 2025!</span></span></p>
+
+    <h1><span class="bold">Appendix C:</span></h1>
+
+    <p><span class="bold">Additional help if desired!</span></p>
+
+    <p><span class="bold">Hint 1:</span></p>
+
+    <p>Assume the name of your program is "fooddistro". If you type "go run ." at the command prompt, input is normally expected from the keyboard and results are printed on the terminal. The command "go run . > file1" would expect all input to come from the keyboard but the results would be routed to a disk file named "file1." The command "go run . < raw1 > results" would obtain input from the file "raw1" and place the output in the text file "results".</p>
+
+    <p><span class="bold">Hint 2:</span></p>
+
+    <p>Go has strong type safety but provides flexible type conversion mechanisms when needed. Use proper type conversions rather than unsafe operations.</p>
+
+    <div class="code-block">package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Go type conversion examples
+    var c1 byte = 'A'
+    var int1 int = int(c1) // Type conversion in Go
+    
+    fmt.Printf(" int1 = %4d ", int1)
+    fmt.Printf("c1 = %c\n\n", c1)
+    
+    var int2 int = 66
+    var c2 byte = byte(int2) // Type conversion in Go
+    
+    fmt.Printf(" int2 = %4d ", int2)
+    fmt.Printf("c2 = %c\n\n", c2)
+}</div>
+
+    <p><span class="bold">Hint 3: String manipulation in Go.</span></p>
+
+    <p>Go provides built-in string manipulation. Strings in Go are immutable, but you can create new strings from substrings using slicing syntax.</p>
+
+    <div class="code-block">s := "ABCD"
+substr := s[1:3] // "BC" - slicing from index 1 to 2 (3 is exclusive)
+singleChar := s[1:2] // "B" - single character as string
+
+// String concatenation
+s1 := "Bar"
+s2 := s1 + s1
+fmt.Println(s2) // "BarBar"</div>
+
+    <p><span class="bold">Hint 4: Using enumeration types in Go with iota.</span></p>
+
+    <div class="code-block">type LastChar int
+
+const (
+    A LastChar = iota + int('A')
+    B
+    C
+    // ... continues automatically
+    Z = A + 25
+)
+
+lastCharName := A
+
+// To get next character
+if lastCharName < Z {
+    lastCharName++
+}
+
+// Convert to actual character
+actualChar := byte(lastCharName)</div>
+
+    <p><span class="bold">Hint 5: Time manipulation in Go.</span></p>
+
+    <div class="code-block">package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func main() {
+    startTime := time.Now()
+    endTime := startTime.Add(40 * time.Second) // 40 seconds = 40 hours simulation
+    
+    for time.Now().Before(endTime) {
+        elapsed := time.Since(startTime)
+        fmt.Printf("Elapsed: %v\n", elapsed.Seconds())
+        time.Sleep(10 * time.Second)
+    }
+    
+    totalElapsed := time.Since(startTime)
+    fmt.Printf("Total elapsed: %v\n", totalElapsed.Seconds())
+    fmt.Println("End of program")
+}</div>
+
+    <p>Modified: August 24, 2025</p>
+
+</body>
+</html>
+    
