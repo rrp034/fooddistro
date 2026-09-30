@@ -1,7 +1,7 @@
 //
 // The software suite consists of main.go,
 // food, stats, gatekeeper,
-// producer, circularque, and sales packages.
+// producer, foodstore, and sales packages.
 //
 // The specification require the ability to create multiple points of sale.
 
@@ -21,6 +21,7 @@ type RetailSales struct {
 	id         int
 }
 
+// NewRetailSales creates a point of sale with its dependencies.
 func NewRetailSales(id int, gk *gatekeeper.GateKeeper, st *stats.Stats) *RetailSales {
 	return &RetailSales{
 		stats:      st,
@@ -29,10 +30,12 @@ func NewRetailSales(id int, gk *gatekeeper.GateKeeper, st *stats.Stats) *RetailS
 	}
 }
 
+// Start launches the point of sale in its own goroutine.
 func (rs *RetailSales) Start() {
 	go rs.run()
 }
 
+// run requests available food and simulates selling each received item.
 func (rs *RetailSales) run() {
 	time.Sleep(1 * time.Second) // Allow for initialization activities (1 second = 1 hour simulation)
 

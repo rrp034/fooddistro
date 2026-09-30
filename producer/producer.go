@@ -1,7 +1,7 @@
 //
 // The software suite consists of main.go,
 // food, stats, gatekeeper,
-// producer, circularque, and sales packages.
+// producer, foodstore, and sales packages.
 //
 // This package simulates the arrival of food packets for the GateKeeper storage facility.
 // FoodPacks are removed from interplanetary shipping crates by the GateKeeper
@@ -28,6 +28,7 @@ type ProductGenerator struct {
 	id         int
 }
 
+// NewProductGenerator creates a product generator with its dependencies.
 func NewProductGenerator(id int, gk *gatekeeper.GateKeeper, st *stats.Stats) *ProductGenerator {
 	return &ProductGenerator{
 		stats:      st,
@@ -36,10 +37,12 @@ func NewProductGenerator(id int, gk *gatekeeper.GateKeeper, st *stats.Stats) *Pr
 	}
 }
 
+// Start launches the product generator in its own goroutine.
 func (pg *ProductGenerator) Start() {
 	go pg.run()
 }
 
+// run generates, prepares, and sends food packs until the process ends.
 func (pg *ProductGenerator) run() {
 	for {
 		foodType := food.RandomFoodType()

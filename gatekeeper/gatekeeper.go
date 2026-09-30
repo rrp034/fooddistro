@@ -20,7 +20,7 @@ import (
 )
 
 type GateKeeper struct {
-	store *foodstore.FoodStore // HIGHLIGHT: was *circularque.CircularQue[food.FoodPack]
+	store *foodstore.FoodStore[food.FoodPack] // HIGHLIGHT: was *circularque.CircularQue[food.FoodPack]
 	// HIGHLIGHT END
 	acceptChan   chan food.FoodPack
 	retrieveChan chan retrieveRequest
@@ -42,7 +42,7 @@ type retrieveRequest struct {
 // NewGateKeeper creates and starts a GateKeeper with the given storage capacity.
 func NewGateKeeper(capacity int) *GateKeeper {
 	gk := &GateKeeper{
-		store:        foodstore.NewFoodStore(capacity), // HIGHLIGHT: builds the sorted-list store
+		store:        foodstore.NewFoodPackStore(capacity), // HIGHLIGHT: builds the generic sorted-list store
 		acceptChan:   make(chan food.FoodPack, 100),
 		retrieveChan: make(chan retrieveRequest, 100),
 		rejected:     0,
@@ -95,7 +95,7 @@ func (gk *GateKeeper) run() {
 			if !gk.store.IsEmpty() {
 				mgtDesiredType := food.RandomFoodType()
 				// HIGHLIGHT: binary search replaces sequential FIFO removal
-				foodItem, _, apology := gk.store.RetrieveDesired(mgtDesiredType)
+				foodItem, _, apology := retrieveDesired(gk.store, mgtDesiredType)
 				// HIGHLIGHT END
 
 				fmt.Printf("Mgt Desired Food Type To Sell is: %s\n", mgtDesiredType)
@@ -123,7 +123,7 @@ func (gk *GateKeeper) run() {
 	elapsed := time.Since(gk.startTime)
 	fmt.Printf("\n\nHours of operation prior to closing: %.3f\n", elapsed.Seconds())
 
-	gk.printSalesSummary() // HIGHLIGHT: added closing report, all grading options require it
+	gk.printSalesSummary() // HIGHLIGHT: added closing report
 }
 
 // printSalesSummary prints per-FoodType and grand-total units sold. HIGHLIGHT: whole function is new
@@ -137,6 +137,28 @@ func (gk *GateKeeper) printSalesSummary() {
 	fmt.Println("------------------------------------------------------")
 	fmt.Printf("%-12s | %d\n", "TOTAL", gk.totalSold)
 	fmt.Println("=======================================================")
+}
+
+// HIGHLIGHT END
+
+// retrieveDesired uses binary search to find the first desired FoodPack and
+// removes the last packet when the desired type is unavailable.
+// HIGHLIGHT: preserves the required binary-search sales behavior on generic storage
+func retrieveDesired(store *foodstore.FoodStore[food.FoodPack], desired food.FoodType) (packet food.FoodPack, ok bool, apology string) {
+	if store.IsEmpty() {
+		return food.FoodPack{}, false, ""
+	}
+
+	// HIGHLIGHT: binary search locates the first matching packet
+	idx, found := foodstore.BinarySearchByType(store.Items(), desired)
+	if !found {
+		idx = len(store.Items()) - 1
+		apology = fmt.Sprintf("Sorry, no food packets of the %s are currently available.", desired)
+	}
+	// HIGHLIGHT END
+
+	packet, ok = store.RemoveAt(idx)
+	return packet, ok, apology
 }
 
 // HIGHLIGHT END

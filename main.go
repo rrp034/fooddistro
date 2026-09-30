@@ -1,6 +1,6 @@
 // The software suite consists of main.go,
 // food, stats, gatekeeper,
-// producer, circularque, and sales packages.
+// producer, foodstore, and sales packages.
 //
 // This represents the software to manage an "embedded" planetary system
 // food receiving and distribution system.
@@ -17,6 +17,7 @@ import (
 	"fooddistro/stats"
 )
 
+// main reads the requested concurrency settings and starts the simulation.
 func main() {
 	var numProductGenerators int
 	var numPOS int

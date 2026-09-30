@@ -2,7 +2,7 @@
 //
 // The software suite consists of main.go,
 // food, stats, gatekeeper,
-// producer, circularque, and sales packages.
+// producer, foodstore, and sales packages.
 //
 // This represents the software to manage an "embedded" planetary system
 // food receiving and distribution system.
@@ -18,6 +18,7 @@ type Stats struct {
 	rand *rand.Rand
 }
 
+// NewStats creates an independent random distribution generator.
 func NewStats() *Stats {
 	return &Stats{
 		rand: rand.New(rand.NewSource(time.Now().UnixNano())),
@@ -87,6 +88,7 @@ func (s *Stats) PrepareGrainVegetableFoodPackForSales() time.Duration {
 	}
 }
 
+// PrepareMeatFoodPackForSales returns the A+ preparation time step for meat. HIGHTLIGHT
 func (s *Stats) PrepareMeatFoodPackForSales() time.Duration {
 	randFloat := s.rand.Float64()
 	if randFloat <= 0.20 {
@@ -99,3 +101,4 @@ func (s *Stats) PrepareMeatFoodPackForSales() time.Duration {
 		return time.Duration(1.20 * float64(time.Second)) // 10% - 1.20 hours
 	}
 }
+//HIGHLIGHT END
